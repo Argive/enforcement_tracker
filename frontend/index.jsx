@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Form from './components/form';
+import Form from './components/main/form/form';
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
