@@ -43,5 +43,5 @@
 #
 
 class Facility < ApplicationRecord
-  validates :registry_id, presence: true 
+  validates :registry_id, uniqueness: true, allow_nil: true 
 end

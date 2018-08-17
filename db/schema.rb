@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180817182452) do
+ActiveRecord::Schema.define(version: 20180817201424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,22 +32,22 @@ ActiveRecord::Schema.define(version: 20180817182452) do
     t.string "fac_date_last_informal_action"
     t.integer "fac_formal_action_count"
     t.string "fac_date_last_formal_action"
-    t.integer "fac_total_penalties"
+    t.bigint "fac_total_penalties"
     t.integer "fac_penalty_count"
     t.string "fac_date_last_penalty"
-    t.integer "fac_last_penalty_amount"
+    t.bigint "fac_last_penalty_amount"
     t.integer "caa_evaluation_count"
     t.integer "caa_informal_count"
     t.integer "caa_formal_action_count"
-    t.integer "caa_penalties"
+    t.bigint "caa_penalties"
     t.integer "cwa_inspection_count"
     t.integer "cwa_informal_count"
     t.integer "cwa_formal_action_count"
-    t.integer "cwa_penalties"
+    t.bigint "cwa_penalties"
     t.integer "rcra_inspection_count"
     t.integer "rcra_informal_count"
     t.integer "rcra_formal_action_count"
-    t.integer "rcra_penalties"
+    t.bigint "rcra_penalties"
     t.integer "sdwa_informal_count"
     t.integer "sdwa_formal_action_count"
     t.datetime "created_at", null: false

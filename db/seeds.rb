@@ -1,17 +1,8 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
 require 'csv'
 
-csv_text = File.read(Rails.root.join('lib', 'seeds', 'echo_exporter_test.csv'))
-csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1')
+path = Rails.root.join('lib', 'seeds', 'echo_exporter_all.csv')
 
-csv.each do |row|
+CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
   t = Facility.new
 
   t.registry_id = row['REGISTRY_ID']
@@ -57,6 +48,7 @@ csv.each do |row|
   t.sdwa_formal_action_count = row['SDWA_FORMAL_ACTION_COUNT']
 
   t.save
+  puts "#{t.fac_name} added ..."
 end
 
 puts "#{Facility.count} rows added to Facility table."
