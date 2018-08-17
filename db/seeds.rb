@@ -24,6 +24,7 @@ csv.each do |row|
   t.fac_lat = row['FAC_LAT']
   t.fac_long = row['FAC_LONG']
   t.fac_naics_codes = row['FAC_NAICS_CODES']
+  t.dfr_url = row['DFR_URL']
 
   t.fac_inspection_count = row['FAC_INSPECTION_COUNT']
   t.fac_date_last_inspection = row['FAC_DATE_LAST_INSPECTION']

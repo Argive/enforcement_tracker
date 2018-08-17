@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180817181704) do
+ActiveRecord::Schema.define(version: 20180817182452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "facilities", force: :cascade do |t|
-    t.bigint "registry_id", null: false
+    t.bigint "registry_id"
     t.string "fac_name"
     t.string "fac_street"
     t.string "fac_city"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20180817181704) do
     t.integer "sdwa_formal_action_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "dfr_url"
     t.index ["registry_id"], name: "index_facilities_on_registry_id", unique: true
   end
 

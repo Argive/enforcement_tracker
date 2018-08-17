@@ -3,7 +3,7 @@
 # Table name: facilities
 #
 #  id                            :bigint(8)        not null, primary key
-#  registry_id                   :bigint(8)        not null
+#  registry_id                   :bigint(8)
 #  fac_name                      :string
 #  fac_street                    :string
 #  fac_city                      :string
@@ -39,6 +39,7 @@
 #  sdwa_formal_action_count      :integer
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
+#  dfr_url                       :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
