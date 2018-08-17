@@ -3,7 +3,7 @@
 # Table name: facilities
 #
 #  id                            :bigint(8)        not null, primary key
-#  registry_id                   :integer          not null
+#  registry_id                   :bigint(8)        not null
 #  fac_name                      :string
 #  fac_street                    :string
 #  fac_city                      :string
