@@ -3,9 +3,24 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {formal: :json} do
     namespace :v1 do
-      resources :facilities, only: [:index, :show, :count]
-      resources :inspections, only: [:index, :show]
-      resources :enforcements, only: [:index, :show]
+      resources :facilities, only: [:index, :show] do
+        collection do
+          get 'summarize'
+        end
+      end
+
+      resources :inspections, only: [:index, :show] do
+        collection do
+          get 'summarize'
+        end
+      end
+
+      resources :enforcements, only: [:index, :show] do
+        collection do
+          get 'summarize'
+        end
+      end
+
     end
   end
 end

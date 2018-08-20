@@ -3,4 +3,11 @@ class Api::V1::FacilitiesController < ApplicationController
     @facility = Facility.find(params[:id])
     render json: @facility
   end
+
+  def summarize
+    @facility_count = Facility.count
+    render json: {
+      facility_count: @facility_count
+    }
+  end
 end
