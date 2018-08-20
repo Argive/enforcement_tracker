@@ -1,0 +1,2 @@
+module FacilitiesControllerHelper
+end
