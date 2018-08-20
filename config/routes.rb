@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {formal: :json} do
     namespace :v1 do
-      resources :facilities, only: [:index, :show] do
+      concern :pagination do
+        get '(page/:page)', action: :index, on: :collection, as: ''
+      end
+
+      resources :facilities, only: [:show], concerns: :pagination do
         collection do
           get 'summarize'
         end
