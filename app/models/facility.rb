@@ -43,5 +43,15 @@
 #
 
 class Facility < ApplicationRecord
-  validates :registry_id, uniqueness: true, allow_nil: true 
+  default_scope { order('id') }
+
+  extend Rack::Reducer
+  reduces self.all, filters: [
+    ->(state:) { where(fac_state: state.upcase) },
+    ->(zip:) { where(fac_zip: zip) },
+    ->(epa_region:) { where(fac_epa_region: epa_region) }
+  ]
+
+  validates :registry_id, uniqueness: true, allow_nil: true
+
 end

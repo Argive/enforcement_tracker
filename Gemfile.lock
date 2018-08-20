@@ -125,6 +125,8 @@ GEM
     public_suffix (3.0.2)
     puma (3.12.0)
     rack (2.0.5)
+    rack-reducer (0.1.2)
+      rack (>= 1.6, < 3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.1.6)
@@ -217,6 +219,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pry-rails
   puma (~> 3.7)
+  rack-reducer
   rails (~> 5.1.6)
   sass-rails (~> 5.0)
   selenium-webdriver

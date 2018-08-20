@@ -1,7 +1,9 @@
 class Api::V1::FacilitiesController < ApplicationController
 
+
   def index
-    @facilities = Facility.page(params[:page]).per(100)
+    @facilities = Facility.reduce(params).page(params[:page]).per(100)
+
     render json: @facilities
   end
 
