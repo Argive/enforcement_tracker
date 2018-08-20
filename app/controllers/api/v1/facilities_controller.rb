@@ -1,4 +1,10 @@
 class Api::V1::FacilitiesController < ApplicationController
+
+  def index
+    @facilities = Facility.page(params[:page]).per(100)
+    render json: @facilities
+  end
+
   def show
     @facility = Facility.find(params[:id])
     render json: @facility
