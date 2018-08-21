@@ -47,11 +47,14 @@ class Facility < ApplicationRecord
 
   extend Rack::Reducer
   reduces self.all, filters: [
+    ->(id:) { where(id: id.to_i) },
     ->(state:) { where(fac_state: state.upcase) },
-    ->(zip:) { where(fac_zip: zip) },
-    ->(epa_region:) { where(fac_epa_region: epa_region) }
+    ->(zip:) { where(fac_zip: zip.to_i) },
+    ->(epa_region:) { where(fac_epa_region: epa_region.to_i) },
+    ->(inspection_count_max:) { where(fac_inspection_count: 0..inspection_count_max.to_i) },
+    ->(inspection_count_min:) { where(fac_inspection_count: inspection_count_min.to_i..Float::INFINITY) }
   ]
 
-  validates :registry_id, uniqueness: true, allow_nil: true
 
+  validates :registry_id, uniqueness: true, allow_nil: true
 end
