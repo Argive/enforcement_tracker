@@ -4,49 +4,32 @@ class Form extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.state = {
-      zip: '',
-      naics: '',
-      statutes: []
-    };
   }
 
-  handleSearch(e) {
-    e.preventDefault();
-  }
 
   render() {
 
     return(
-      <section className="form-container">
-        <form onSubmit={this.handleSearch}>
-          <h2>Enter your info:</h2>
-          <input
-            type="number"
-            placeholder="ZIP Code"
-            maxLength="5"
-            />
+      <section className="main">
+        <h1>Hello, I am the Argive Enforcement API.</h1>
+        <h1>If viewing in a browser, I recommend <a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en">JSON View</a>.</h1>
+        <h1>Here are some things you can try:</h1>
+        <ul>
+          Summarize things:
+            <li><a href="api/v1/facilities/summarize"> api/v1/facilities/summarize</a></li>
+            <li><a href="api/v1/inspections/summarize"> api/v1/inspections/summarize</a></li>
+            <li><a href="api/v1/enforcements/summarize"> api/v1/enforcements/summarize</a></li>
+          <br/>
+          Search and filter things:
+            <li><a href="api/v1/facilities?name=Texaco&fine_min=1000"> api/v1/facilities?name=Texaco&fine_min=1000</a></li>
+            <li><a href="api/v1/facilities?state=CA"> api/v1/facilities?state=CA</a></li>
+            <li><a href="api/v1/facilities?penalty_count_min=10&penalty_count_max=15"> api/v1/facilities?penalty_count_min=10&penalty_count_max=15</a></li>
 
-          <input
-            type="text"
-            placeholder="NAICS CODE"
-            maxLength="5"
-            />
+          <br/>
+          View everything:
+            <li><a href="api/v1/facilities"> api/v1/facilities</a></li>
 
-          <select name="Statutes" multiple>
-            <option value="cwa">Clean Water Act</option>
-            <option value="caa">Clean Air Act</option>
-            <option value="rcra">Hazardous Waste</option>
-            <option value="sdwa">Drinking Water</option>
-          </select>
-
-          <input
-            type="submit"
-            value="Search"
-          />
-
-        </form>
+        </ul>
       </section>
     );
   }
