@@ -1,6 +1,6 @@
 require 'csv'
 
-path = Rails.root.join('lib', 'seeds', 'echo_exporter_all.csv')
+path = Rails.root.join('lib', 'seeds', 'echo_exporter_test.csv')
 
 CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
   t = Facility.new

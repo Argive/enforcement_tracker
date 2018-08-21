@@ -19,4 +19,6 @@ bundle.js.map
 /node_modules
 /yarn-error.log
 
+lib/seeds/echo_exporter_all.csv
+
 .byebug_history
