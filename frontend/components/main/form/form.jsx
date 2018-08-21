@@ -29,6 +29,7 @@ class Form extends React.Component {
           <br/>
           View everything:
             <li><a href="api/v1/facilities"> api/v1/facilities</a></li>
+            <li><a href="api/v1/facilities/page/2"> api/v1/facilities/page/2</a></li>
 
         </ul>
       </section>
