@@ -47,14 +47,29 @@ class Facility < ApplicationRecord
 
   extend Rack::Reducer
   reduces self.all, filters: [
-    ->(id:) { where(id: id.to_i) },
+    ->(id:) { where(id: id.to_i) }, # for testing, remove in prod
+    ->(name:) { where('lower(fac_name) like ?', "%#{name.downcase}%") },
     ->(state:) { where(fac_state: state.upcase) },
     ->(zip:) { where(fac_zip: zip.to_i) },
     ->(epa_region:) { where(fac_epa_region: epa_region.to_i) },
     ->(inspection_count_max:) { where(fac_inspection_count: 0..inspection_count_max.to_i) },
-    ->(inspection_count_min:) { where(fac_inspection_count: inspection_count_min.to_i..Float::INFINITY) }
+    ->(inspection_count_min:) { where(fac_inspection_count: inspection_count_min.to_i..Float::INFINITY) },
+    ->(fines_max:) { where(fac_total_penalties: 0..fines_max.to_i) },
+    ->(fines_min:) { where(fac_total_penalties: fines_min.to_i..Float::INFINITY) },
+    ->(naics_available:) { where.not(fac_naics_codes: nil) }, # for testing, remove in prod
+    ->(naics:) { where('fac_naics_codes like ? OR fac_naics_codes like ?',  "#{naics}%", "% #{naics}%") }
   ]
 
+  # scope :naics_2, lambda { |code|
+  #   where(fac_naics_codes:
+  #
+  #   )
+  # }
+
+  # def self.naics_2_digit(full_naics)
+  #   return nil if full_naics.nil?
+  #   full_naics.split("").first[0..1].to_i
+  # end
 
   validates :registry_id, uniqueness: true, allow_nil: true
 end
