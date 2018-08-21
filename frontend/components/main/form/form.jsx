@@ -12,7 +12,7 @@ class Form extends React.Component {
     return(
       <section className="main">
         <h1>Hello, I am the Argive Enforcement API.</h1>
-        <h1>If viewing in a browser, I recommend <a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en">JSON View</a>.</h1>
+        <h1>If viewing in a browser, I recommend using <a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en">JSON View</a>.</h1>
         <h1>Here are some things you can try:</h1>
         <ul>
           Summarize things:
