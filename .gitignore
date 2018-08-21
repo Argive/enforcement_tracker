@@ -19,6 +19,4 @@ bundle.js.map
 /node_modules
 /yarn-error.log
 
-/lib/seeds
-
 .byebug_history
