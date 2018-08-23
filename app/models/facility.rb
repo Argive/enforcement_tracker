@@ -19,27 +19,28 @@
 #  fac_date_last_informal_action :string
 #  fac_formal_action_count       :integer
 #  fac_date_last_formal_action   :string
-#  fac_total_penalties           :integer
+#  fac_total_penalties           :bigint(8)
 #  fac_penalty_count             :integer
 #  fac_date_last_penalty         :string
-#  fac_last_penalty_amount       :integer
+#  fac_last_penalty_amount       :bigint(8)
 #  caa_evaluation_count          :integer
 #  caa_informal_count            :integer
 #  caa_formal_action_count       :integer
-#  caa_penalties                 :integer
+#  caa_penalties                 :bigint(8)
 #  cwa_inspection_count          :integer
 #  cwa_informal_count            :integer
 #  cwa_formal_action_count       :integer
-#  cwa_penalties                 :integer
+#  cwa_penalties                 :bigint(8)
 #  rcra_inspection_count         :integer
 #  rcra_informal_count           :integer
 #  rcra_formal_action_count      :integer
-#  rcra_penalties                :integer
+#  rcra_penalties                :bigint(8)
 #  sdwa_informal_count           :integer
 #  sdwa_formal_action_count      :integer
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
 #  dfr_url                       :string
+#  fac_type                      :string
 #
 
 class Facility < ApplicationRecord
@@ -57,7 +58,8 @@ class Facility < ApplicationRecord
     ->(fines_max:) { where(fac_total_penalties: 0..fines_max.to_i) },
     ->(fines_min:) { where(fac_total_penalties: fines_min.to_i..Float::INFINITY) },
     ->(naics_available:) { where.not(fac_naics_codes: nil) }, # for testing, remove in prod
-    ->(naics:) { where('fac_naics_codes like ? OR fac_naics_codes like ?',  "#{naics}%", "% #{naics}%") }
+    ->(naics:) { where('fac_naics_codes like ? OR fac_naics_codes like ?',  "#{naics}%", "% #{naics}%") },
+    ->(type:) { where(fac_type: type) }
   ]
 
   # scope :naics_2, lambda { |code|
@@ -72,4 +74,6 @@ class Facility < ApplicationRecord
   # end
 
   validates :registry_id, uniqueness: true, allow_nil: true
+  validates :fac_type, inclusion: { in: %w{gov small large},
+                                         message: "%{value} is invalid type."}
 end

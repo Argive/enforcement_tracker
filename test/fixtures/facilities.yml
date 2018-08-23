@@ -19,27 +19,28 @@
 #  fac_date_last_informal_action :string
 #  fac_formal_action_count       :integer
 #  fac_date_last_formal_action   :string
-#  fac_total_penalties           :integer
+#  fac_total_penalties           :bigint(8)
 #  fac_penalty_count             :integer
 #  fac_date_last_penalty         :string
-#  fac_last_penalty_amount       :integer
+#  fac_last_penalty_amount       :bigint(8)
 #  caa_evaluation_count          :integer
 #  caa_informal_count            :integer
 #  caa_formal_action_count       :integer
-#  caa_penalties                 :integer
+#  caa_penalties                 :bigint(8)
 #  cwa_inspection_count          :integer
 #  cwa_informal_count            :integer
 #  cwa_formal_action_count       :integer
-#  cwa_penalties                 :integer
+#  cwa_penalties                 :bigint(8)
 #  rcra_inspection_count         :integer
 #  rcra_informal_count           :integer
 #  rcra_formal_action_count      :integer
-#  rcra_penalties                :integer
+#  rcra_penalties                :bigint(8)
 #  sdwa_informal_count           :integer
 #  sdwa_formal_action_count      :integer
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
 #  dfr_url                       :string
+#  fac_type                      :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
