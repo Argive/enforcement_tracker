@@ -28,4 +28,37 @@ namespace :categorize_by_misc do
 
     puts "#{counter} facilities marked as 'gov' type."
   end
+
+  task count_gov_words: :environment do
+    counter = Hash.new(0)
+
+    Facility.where(fac_type: 'gov').pluck(:fac_name).each do |name|
+      words = name.split(" ")
+      words.each { |word| counter[word] += 1 }
+    end
+
+    puts counter.sort_by { |k, v| -v }[0..750].map { |pair| "'#{pair.first}'," }
+  end
+
+  task count_gov_2_words: :environment do
+    counter = Hash.new(0)
+
+    Facility.where(fac_type: 'gov').pluck(:fac_name).each do |name|
+      words = name.split(" ").each_cons(2).map { |word| word.join(" ") }
+      words.each { |word| counter[word] += 1 }
+    end
+
+    puts counter.sort_by { |k, v| -v }[0..1000].map { |pair| "'#{pair.first}'," }
+  end
+
+  task count_3_words: :environment do
+    counter = Hash.new(0)
+
+    Facility.where(fac_type: 'gov').pluck(:fac_name).each do |name|
+      words = name.split(" ").each_cons(3).map { |word| word.join(" ") }
+      words.each { |word| counter[word] += 1 }
+    end
+
+    puts counter.sort_by { |k, v| -v }[0..200].map { |pair| "'#{pair.first}'," }
+  end
 end
