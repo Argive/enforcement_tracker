@@ -1,13 +1,13 @@
 require 'set'
 
-gov_keywords = Set[
-  'CITY',
+
+GOV_SINGLE_WORDS = Set[
+  'CITY OF',
   'MS4',
   'COUNTY',
   'BRIDGE',
   'DEPT',
   'ARMY',
-  'STATE',
   'DOT',
   'DEPARTMENT',
   'POLICE',
@@ -18,16 +18,13 @@ gov_keywords = Set[
   'ARMORY',
   'CNTY',
   'TOWN',
-  'ST',
   'NYSDOT',
   'ROAD',
   'LANDFILL',
   'AUTHORITY',
-  'VILLAGE',
-  'LAKE',
+  'VILLAGE OF',
   'THRUWAY',
   'FEDERAL',
-  'PARKS',
   'BUREAU',
   'USAF',
   'USARC',
@@ -37,7 +34,6 @@ gov_keywords = Set[
   'HWY',
   'COURTHOUSE',
   'MUNICIPAL',
-  'COURT',
   'PARISH',
   'DA',
   'ODOT',
@@ -116,7 +112,6 @@ gov_keywords = Set[
   'LANE',
   'TOLLWAY',
   'SX',
-  'FORT',
   'GUARD',
   'FWP',
   'SHA',
@@ -133,7 +128,7 @@ gov_keywords = Set[
   'FIRE',
   'PUBLIC',
   'ADMINISTRATION',
-  'HOUSING'
+  'PUBLIC HOUSING'
 ]
 
 one_from_pair_words = [
@@ -246,7 +241,6 @@ one_from_pair_words = [
   'TOWN',
   'MEMORIAL',
   'AIRPORT',
-  'COURT',
   'RECLAMATION',
   'MUNICIPAL',
   'PROTECTION',
@@ -293,7 +287,6 @@ one_from_pair_words = [
   'HOUSE',
   'INC',
   'LANDFILL',
-  'FOREST',
   'SEATTLE',
   'YORK',
   'FIELD',
@@ -2337,5 +2330,5 @@ end
 
 # count_words_in_pair(gov_keywords_pair)
 # identify_duplicates(gov_keywords, one_from_pair_words)
-identify_uniques(gov_keywords, one_from_pair_words)
+# identify_uniques(gov_keywords, one_from_pair_words)
 # remove_duplicates(gov_keywords, gov_keywords_pair)
