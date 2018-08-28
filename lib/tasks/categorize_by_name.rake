@@ -1,6 +1,39 @@
 require_relative './files/gov_keywords'
 require 'spreadsheet'
 
+REMOVE_WORDS_FROM_LARGE = Set[
+  'INC',
+  'CORPORATION',
+  'FUND',
+  'TRUST',
+  'HOLDINGS',
+  'ETF',
+  'GROUP',
+  'INCOME',
+  'LTD',
+  'CORP',
+  'COMPANY',
+  'FINANCIAL',
+  'INTERNATIONAL',
+  'BANCORP',
+  'LIMITED',
+  'THE',
+  'MUNICIPAL',
+  'GLOBAL',
+  'LP',
+  'PLC',
+  'PARTNERS',
+  'CAPITAL',
+  'SA',
+  'INVESCO',
+  'INCORPORATED',
+  'INDUSTRIES',
+  'HOLDING',
+  'ISHARES',
+  'INDEX',
+  'CO',
+]
+
 namespace :categorize_by_name do
   task gov: :environment do
     counter = 0
@@ -47,6 +80,6 @@ namespace :categorize_by_name do
   task remove_common_large: :environment do
     punc_removed_file = File.join(Rails.root.join("lib", "tasks", "files", "public_companies", "punc_removed.xls"))
     punc_removed_book = Spreadsheet.open(punc_removed_file)
-    punc_removed_sheet = punc_removed_book(0)
+    punc_removed_sheet = punc_removed_book.worksheet(0)
   end
 end
