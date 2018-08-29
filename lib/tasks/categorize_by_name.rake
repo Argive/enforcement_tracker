@@ -168,12 +168,12 @@ namespace :categorize_by_name do
       s_p_companies.add(item[0])
     end
 
-    first pass
     s_p_companies.each do |known_large|
       next if known_large.nil?
 
-      matches = Facility.where(fac_type: nil).where('fac_name LIKE ?', "%#{known_large}%")
+      matches = Facility.where(fac_type: 'large').where('fac_name LIKE ?', "%#{known_large}%")
 
+      # p "#{known_large}: #{matches.count}"
       matches.each do |match|
         p match.fac_name
         match.fac_type = 'large'
@@ -184,6 +184,16 @@ namespace :categorize_by_name do
 
     puts "#{counter} facilities marked as large."
   end
+
+  # false positives from s&p (remove later):
+  FALSE_POSITIVES_S_P = [
+    'ALBEMARLE',
+    'APPLE',
+    'HARRIS',
+    'PAPER',
+    'SOUTHERN',
+    'TARGET'
+  ]
 
   task large: :environment do
     final_file = File.join(Rails.root.join("lib", "tasks", "files", "public_companies", "final.xls"))
@@ -197,27 +207,33 @@ namespace :categorize_by_name do
       public_companies.add(item[0])
     end
 
-    # Facility.where(fac_type: nil).pluck(:id, :fac_name).each do |f|
-    #   next if f[1].nil?
-    #
-    #   facility_name = f[1].split(" ")
-    #
-    #   public_companies.each do |p|
-    #     next if p.nil?
-    #
-    #     if (p.split(" ") & facility_name).length > 2
-    #       puts "#{p.split(" ")}: #{facility_name}"
-    #       counter += 1
-    #       break
-    #     end
-    #   end
-    #
-    # end
+    Facility.where(fac_type: nil).pluck(:id, :fac_name).each do |f|
+      next if f[1].nil?
+
+      facility_name = f[1].split(" ")
+
+      public_companies.each do |p|
+        next if p.nil?
+
+        public_company_name = p.split(" ")
+
+        if public_company_name[0] == facility_name[0] && (public_company_name & facility_name).length > 2
+          large_f = Facility.find(f[0])
+          large_f.fac_type = 'large'
+          large.save
+
+          puts "#{p.split(" ")}: #{facility_name}"
+          counter += 1
+          break
+        end
+      end
+
+    end
 
     # public_companies.each do |known_large|
     #   next if known_large.nil?
     #
-    #   matches = Facility.where(fac_naics_codes:nil).where('fac_name LIKE ?', "%#{known_large}%")
+    #   matches = Facility.where(fac_type: nil).where('fac_name LIKE ?', "%#{known_large}%")
     #
     #   if matches.length > 10
     #     p "#{known_large}: #{matches.pluck(:fac_name).to_a}"
