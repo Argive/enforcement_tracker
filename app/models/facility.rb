@@ -74,6 +74,6 @@ class Facility < ApplicationRecord
   # end
 
   validates :registry_id, uniqueness: true, allow_nil: true
-  validates :fac_type, inclusion: { in: %w{gov small large},
+  validates :fac_type, inclusion: { in: %w{gov small large exempt},
                                          message: "%{value} is invalid type."}
 end

@@ -5,7 +5,7 @@ namespace :categorize_by_name do
   task gov: :environment do
     counter = 0
 
-    Facility.where(fac_naics_codes: nil).pluck(:id, :fac_name).each do |id_name|
+    Facility.pluck(:id, :fac_name).each do |id_name|
       next if id_name[1].nil?
 
       id_name[1].split(" ").each do |word|
@@ -132,30 +132,6 @@ namespace :categorize_by_name do
     s_p_cleaned_book.write(s_p_cleaned_file)
   end
 
-  # task remove_short_names: :environment do
-  #   final_file = File.join(Rails.root.join("lib", "tasks", "files", "public_companies", "final.xls"))
-  #   final_book = Spreadsheet.open(final_file)
-  #   final_sheet = final_book.worksheet(0)
-  #
-  #   final_file_short_removed = File.join(Rails.root.join("lib", "tasks", "files", "public_companies", "final_short_removed.xls"))
-  #   final_book_short_removed = Spreadsheet::Workbook.new
-  #   final_sheet_short_removed = final_book_short_removed.create_worksheet
-  #
-  #   idx = 0
-  #
-  #   final_sheet.each do |item|
-  #     next if item[0].nil?
-  #     if item[0].length > 4
-  #       final_sheet_short_removed[idx, 0] = item[0]
-  #       idx += 1
-  #     else
-  #       puts "#{item[0]} removed."
-  #     end
-  #   end
-  #
-  #   final_book_short_removed.write(final_file_short_removed)
-  # end
-
   task s_p: :environment do
     s_p_cleaned = File.join(Rails.root.join("lib", "tasks", "files", "public_companies", "s_p_cleaned.xls"))
     s_p_book = Spreadsheet.open(s_p_cleaned)
@@ -220,9 +196,9 @@ namespace :categorize_by_name do
         if public_company_name[0] == facility_name[0] && (public_company_name & facility_name).length > 2
           large_f = Facility.find(f[0])
           large_f.fac_type = 'large'
-          large.save
+          large_f.save
 
-          puts "#{p.split(" ")}: #{facility_name}"
+          puts "#{p.split(" ")}: #{large_f.fac_name}"
           counter += 1
           break
         end
@@ -230,25 +206,121 @@ namespace :categorize_by_name do
 
     end
 
-    # public_companies.each do |known_large|
-    #   next if known_large.nil?
-    #
-    #   matches = Facility.where(fac_type: nil).where('fac_name LIKE ?', "%#{known_large}%")
-    #
-    #   if matches.length > 10
-    #     p "#{known_large}: #{matches.pluck(:fac_name).to_a}"
-    #     p "------------------------------------------------"
-    #     puts
-    #     puts
-    #   end
-    #
-    #   matches_count = matches.to_a.count
-    #
-    #   counter += matches_count
-    #
-    #   p matches_count
+    puts "#{counter} facilities marked as large."
+  end
+
+  task small: :environment do
+    counter = 0
+
+    Facility.where(fac_type: nil).pluck(:id).each do |id|
+      facility = Facility.find(id)
+      facility.fac_type = 'small'
+      facility.save
+      puts facility.fac_name
+      counter += 1
+    end
+
+    puts "#{counter} facilities marked as small."
+  end
+
+  task large_2: :environment do
+    MISSED_LARGE = [
+      # 'NEW YORK TELEPHONE',
+      # "TRADER JOE'S",
+      # 'DUNKIN DONUTS',
+      # 'BASKIN ROBBINS',
+      # 'SAFETY-KLEEN',
+      # 'FAMILY DOLLAR',
+      # 'PEPSI COLA',
+      # 'PHILLIPS PETROLEUM',
+      # 'PETRO-CANADA',
+      # 'SAFETY KLEEN',
+      # 'SHELL SERVICE',
+      # 'SHELL OIL',
+      # 'CON ED',
+      # 'CHESAPEAKE ENERGY',
+      # 'PACIFIC BELL',
+      # 'TEXACO'
+      'FRITO LAY',
+      'PENSKE',
+      'WALMART',
+      'SPEEDWAY'
+
+    ]
+
+    counter = 0
+
+    MISSED_LARGE.each do |name|
+      Facility.where.not(fac_type: 'large').where('fac_name LIKE ?', "%#{name}%").each do |f|
+        f.fac_type = 'large'
+        f.save
+        puts f.fac_name
+        counter += 1
+      end
+    end
+
+    # Facility.where('fac_name LIKE ?', "%#%").where(fac_type: 'small').each do |f|
+    #   f.fac_type = 'large'
+    #   f.save
+    #   puts f.fac_name
     # end
 
     puts "#{counter} facilities marked as large."
   end
+
+  task gov_2: :environment do
+    MISSED_GOV = [
+      # 'NIOSH',
+      # 'M.D.O.T.',
+      # 'USFS',
+      # 'USPS'
+      'US NAVY',
+    ]
+
+    counter = 0
+
+    MISSED_GOV.each do |name|
+      Facility.where.not(fac_type: 'gov').where('fac_name LIKE ?', "%#{name}%").each do |f|
+        f.fac_type = 'gov'
+        f.save
+        puts f.fac_name
+        counter += 1
+      end
+    end
+
+    # Facility.where('fac_name LIKE ?', "%#%").where(fac_type: 'small').each do |f|
+    #   f.fac_type = 'large'
+    #   f.save
+    #   puts f.fac_name
+    # end
+
+    puts "#{counter} facilities marked as gov."
+  end
+
+  task exempt: :environment do
+    EXEMPT_ORGS = [
+      'CHURCH',
+      'YMCA',
+    ]
+
+    counter = 0
+
+    EXEMPT_ORGS.each do |name|
+      Facility.where.not(fac_type: 'exempt').where('fac_name LIKE ?', "%#{name}%").each do |f|
+        f.fac_type = 'exempt'
+        f.save
+        puts f.fac_name
+        counter += 1
+      end
+    end
+
+    puts "#{counter} facilities marked as exempt."
+  end
 end
+
+
+# false_positives for 'large' - check where facility_name[0] is an initial, i.e.
+# U S Steel or J W Company
+
+
+# also add large if include? #
