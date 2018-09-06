@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "static_pages#root"
 
-  namespace :api, defaults: {formal: :json} do
+  namespace :api, defaults: {format: :json} do
     namespace :v1 do
       concern :pagination do
         get '(page/:page)', action: :index, on: :collection, as: ''

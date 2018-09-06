@@ -49,6 +49,7 @@ class Facility < ApplicationRecord
   extend Rack::Reducer
   reduces self.all, filters: [
     ->(id:) { where(id: id.to_i) }, # for testing, remove in prod
+    ->(frs:) { where(registry_id: frs) },
     ->(name:) { where('lower(fac_name) like ?', "%#{name.downcase}%") },
     ->(state:) { where(fac_state: state.upcase) },
     ->(zip:) { where(fac_zip: zip.to_i) },

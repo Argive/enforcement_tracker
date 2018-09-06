@@ -10,10 +10,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180823202838) do
+ActiveRecord::Schema.define(version: 20180906194618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "case_enforcements", force: :cascade do |t|
+    t.integer "activity_id"
+    t.string "activity_name"
+    t.string "state_code"
+    t.string "region_code"
+    t.integer "fiscal_year"
+    t.string "case_number"
+    t.string "case_name"
+    t.string "activity_type_code"
+    t.string "activity_type_desc"
+    t.integer "activity_status_code"
+    t.string "activity_status_desc"
+    t.date "activity_status_date"
+    t.string "lead"
+    t.date "case_status_date"
+    t.string "doj_docket_nmbr"
+    t.integer "enf_outcome_code"
+    t.string "enf_outcome_desc"
+    t.string "enf_outcome_text"
+    t.integer "total_penalty_assessed_amt"
+    t.integer "total_cost_recovery_amt"
+    t.integer "total_com_action_amt"
+    t.string "hq_division"
+    t.string "branch"
+    t.string "voluntary_self_disclosure_flag"
+    t.string "multimedia_flag"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "case_regulations", force: :cascade do |t|
+    t.string "case_number"
+    t.string "title"
+    t.string "part"
+    t.string "section"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "case_statutes", force: :cascade do |t|
+    t.integer "activity_id"
+    t.string "case_number"
+    t.integer "rank_order"
+    t.string "statute_code"
+    t.string "law_section_code"
+    t.string "law_section_desc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "facilities", force: :cascade do |t|
     t.bigint "registry_id"
