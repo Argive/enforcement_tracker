@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180906194618) do
+ActiveRecord::Schema.define(version: 20180910174058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "case_enforcements", force: :cascade do |t|
-    t.integer "activity_id"
+    t.bigint "activity_id"
     t.string "activity_name"
     t.string "state_code"
     t.string "region_code"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20180906194618) do
     t.string "multimedia_flag"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_case_enforcements_on_activity_id"
   end
 
   create_table "case_regulations", force: :cascade do |t|
@@ -55,7 +56,7 @@ ActiveRecord::Schema.define(version: 20180906194618) do
   end
 
   create_table "case_statutes", force: :cascade do |t|
-    t.integer "activity_id"
+    t.bigint "activity_id"
     t.string "case_number"
     t.integer "rank_order"
     t.string "statute_code"
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(version: 20180906194618) do
     t.string "law_section_desc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_case_statutes_on_activity_id"
   end
 
   create_table "facilities", force: :cascade do |t|

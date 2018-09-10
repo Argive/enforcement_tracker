@@ -3,7 +3,7 @@
 # Table name: case_statutes
 #
 #  id               :bigint(8)        not null, primary key
-#  activity_id      :integer
+#  activity_id      :bigint(8)
 #  case_number      :string
 #  rank_order       :integer
 #  statute_code     :string
