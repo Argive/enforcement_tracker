@@ -34,5 +34,8 @@
 
 class CaseEnforcement < ApplicationRecord
 
-  has_many :statutes
+  has_many :statutes,
+    class_name: 'CaseStatute',
+    primary_key: :activity_id,
+    foreign_key: :activity_id
 end
