@@ -52,6 +52,14 @@ class Facility < ApplicationRecord
   #
   default_scope { order('id') }
 
+  has_many :enforcements,
+    class_name: 'CaseEnforcement',
+    primary_key: :registry_id,
+    foreign_key: :registry_id
+
+  has_many :violated_statutes,
+    through: :enforcements
+
   extend Rack::Reducer
   reduces self.all, filters: [
     ->(id:) { where(id: id.to_i) }, # for testing, remove in prod

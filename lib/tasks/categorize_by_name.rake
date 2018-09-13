@@ -1,5 +1,6 @@
 require_relative './files/gov_keywords'
 require 'spreadsheet'
+require 'csv'
 
 namespace :categorize_by_name do
   task gov: :environment do
@@ -221,6 +222,25 @@ namespace :categorize_by_name do
     end
 
     puts "#{counter} facilities marked as small."
+  end
+
+  task large_private: :environment do
+    path = Rails.root.join('lib', 'tasks', 'files', 'largest_private_companies.csv')
+    counter = 0
+
+    CSV.foreach(path, headers: true, encoding: 'ISO-8859-1') do |row|
+      large_name = row['Company'].upcase
+
+      Facility.where(fac_type: 'small').where('fac_name LIKE ?', "#{large_name}%").each do |f|
+        f.fac_type = 'large'
+        f.save
+        
+        puts f.fac_name
+        counter += 1
+      end
+    end
+
+    puts "#{counter} companies marked as large."
   end
 
   task large_2: :environment do

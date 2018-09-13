@@ -19,4 +19,6 @@ class CaseStatute < ApplicationRecord
     class_name: 'CaseEnforcement',
     primary_key: :activity_id,
     foreign_key: :activity_id
+
+  
 end
