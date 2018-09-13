@@ -30,6 +30,7 @@
 #  multimedia_flag                :string
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
+#  registry_id                    :bigint(8)
 #
 
 require 'test_helper'

@@ -44,6 +44,12 @@
 #
 
 class Facility < ApplicationRecord
+
+  # has_many :enforcements,
+  #   class_name: 'CaseEnforcement',
+  #   primary_key: :id,
+  #   foreign_key: :
+  #
   default_scope { order('id') }
 
   extend Rack::Reducer

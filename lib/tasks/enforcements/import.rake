@@ -63,4 +63,22 @@ namespace :import do
 
     puts "#{counter} cases added."
   end
+
+  task add_registry_id: :environment do
+    path = Rails.root.join('lib', 'tasks', 'enforcements', 'case_downloads', 'CASE_FACILITIES.csv')
+    counter = 0
+
+    CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
+      c = CaseEnforcement.find_by(activity_id: row['ACTIVITY_ID'])
+      c.registry_id = row['REGISTRY_ID']
+
+      c.save
+
+      puts "#{row['FACILITY_NAME']}, #{c.registry_id}"
+    end
+
+    puts "#{counter} facilities matched."
+  end
+
+
 end

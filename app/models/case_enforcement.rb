@@ -30,6 +30,7 @@
 #  multimedia_flag                :string
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
+#  registry_id                    :bigint(8)
 #
 
 class CaseEnforcement < ApplicationRecord
@@ -38,4 +39,5 @@ class CaseEnforcement < ApplicationRecord
     class_name: 'CaseStatute',
     primary_key: :activity_id,
     foreign_key: :activity_id
+    
 end
