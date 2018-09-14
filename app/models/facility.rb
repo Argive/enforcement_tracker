@@ -50,7 +50,7 @@ class Facility < ApplicationRecord
   #   primary_key: :id,
   #   foreign_key: :
   #
-  default_scope { order('id') }
+  # default_scope { order('id') }
 
   has_many :enforcements,
     class_name: 'CaseEnforcement',
