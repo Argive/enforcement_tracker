@@ -52,6 +52,8 @@ class Facility < ApplicationRecord
   #
   # default_scope { order('id') }
 
+  # testing
+
   has_many :enforcements,
     class_name: 'CaseEnforcement',
     primary_key: :registry_id,
