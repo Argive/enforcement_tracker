@@ -79,17 +79,6 @@ class Facility < ApplicationRecord
     ->(type:) { where(fac_type: type) }
   ]
 
-  # scope :naics_2, lambda { |code|
-  #   where(fac_naics_codes:
-  #
-  #   )
-  # }
-
-  # def self.naics_2_digit(full_naics)
-  #   return nil if full_naics.nil?
-  #   full_naics.split("").first[0..1].to_i
-  # end
-
   validates :registry_id, uniqueness: true, allow_nil: true
   validates :fac_type, inclusion: { in: %w{gov small large exempt},
                                          message: "%{value} is invalid type."}

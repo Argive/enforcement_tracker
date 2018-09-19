@@ -37,4 +37,8 @@ class Api::V1::EnforcementsController < ApplicationController
       enforcement_sdwa_formal_count: @enforcement_sdwa_formal_count
     }
   end
+
+  def summarize_v2
+    render json: { 'hi' => 'bye' }
+  end
 end

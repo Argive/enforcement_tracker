@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :enforcements, only: [:index, :show] do
         collection do
           get 'summarize'
+          get 'summarize_v2'
         end
       end
 
