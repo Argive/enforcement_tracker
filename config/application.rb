@@ -11,13 +11,14 @@ module ArgiveEnforcement
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*', headers: :any, methods: [:get, :options]
+        resource '*', headers: :any, methods: [:get, :options],
+        expose: ['access-token', 'expiry', 'token-type', 'uid', 'client']
       end
     end
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
-    config.assets.initialize_on_precompile = true
+    # config.assets.initialize_on_precompile = true
 
 
     # Settings in config/environments/* take precedence over those specified here.
