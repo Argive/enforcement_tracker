@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :facilities, only: [:show], concerns: :pagination do
         collection do
           get 'summarize'
+          get 'industry_count'
         end
       end
 

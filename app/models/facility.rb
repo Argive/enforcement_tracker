@@ -82,4 +82,28 @@ class Facility < ApplicationRecord
   validates :registry_id, uniqueness: true, allow_nil: true
   validates :fac_type, inclusion: { in: %w{gov small large exempt},
                                          message: "%{value} is invalid type."}
+
+
+  def self.summarize
+    summary = {}
+
+    summary[:facility_count] = Facility.count
+    summary[:small_business_count] = Facility.where(fac_type: 'small').count
+    summary[:large_business_count] = Facility.where(fac_type: 'large').count
+    summary[:gov_count] = Facility.where(fac_type: 'gov').count
+    summary[:exempt_count] = Facility.where(fac_type: 'exempt').count
+
+    summary
+  end
+
+  # up to two digit only
+  def self.count_industries
+    counter = Hash.new(0)
+
+    Facility.where.not(fac_naics_codes: nil).pluck(:fac_naics_codes).each do |code_str|
+      code_str.split(" ").each { |code| counter[code.to_i] += 1}
+    end
+
+    counter
+  end
 end

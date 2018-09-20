@@ -11,9 +11,12 @@ class Api::V1::FacilitiesController < ApplicationController
   end
 
   def summarize
-    @facility_count = Facility.count
-    render json: {
-      facility_count: @facility_count
-    }
+    facility_summary = Facility.summarize
+    render json: facility_summary
+  end
+
+  def industry_count
+    industries = Facility.count_industries
+    render json: industries
   end
 end
