@@ -5,6 +5,11 @@ class Api::V1::FacilitiesController < ApplicationController
     render json: @facilities
   end
 
+  def index_geo
+    @facilities = Facility.reduce(params).page(params[:page]).per(1000)
+    render :json => @facilities.as_json(:only => [:id, :fac_lat, :fac_long, :fac_type])
+  end
+
   def show
     @facility = Facility.find(params[:id])
     render json: @facility

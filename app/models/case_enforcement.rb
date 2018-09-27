@@ -45,4 +45,55 @@ class CaseEnforcement < ApplicationRecord
     primary_key: :registry_id,
     foreign_key: :registry_id
 
+  # must use Facility model to calculate penalties because
+  # CaseEnforcement data seems unreliable, e.g. total_penalties == nil
+  # where it should very obviously not be.
+
+  def self.summarize
+    summary = {}
+
+    penalized_facilities = Facility.where('fac_total_penalties > ?', 0)
+    penalized_small_businesses = penalized_facilities.where('fac_type = ?', 'small')
+
+    summary['count'] = CaseEnforcement.count
+
+    summary['facilities_penalized'] =
+      penalized_facilities.count
+
+    summary['small_businesses_penalized'] =
+      penalized_small_businesses.count
+
+    summary['avg_penalties'] =
+      penalized_facilities.average(:fac_total_penalties).to_i
+
+    summary['avg_penalties_small_business'] =
+      penalized_small_businesses.average(:fac_total_penalties).to_i
+
+    summary
+  end
+
+  def self.group_by_year
+    counter = Hash.new(0)
+
+    CaseEnforcement.pluck(:fiscal_year).each do |yr|
+      next if (!yr || yr > 2018)
+      counter[yr] += 1
+    end
+
+    counter
+  end
+
+  def group_by_violated_statutes(subset)
+    counter = Hash.new(0)
+
+    subset.find_each do |c|
+      c.violated_statutes.each do |s|
+        statute_identifier = "#{s.statute_code} #{s.law_section_code} - #{s.law_section_desc}"
+        counter[statute_identifier] += 1
+      end
+    end
+
+    counter
+  end
+
 end

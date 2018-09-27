@@ -45,14 +45,8 @@
 
 class Facility < ApplicationRecord
 
-  # has_many :enforcements,
-  #   class_name: 'CaseEnforcement',
-  #   primary_key: :id,
-  #   foreign_key: :
-  #
-  # default_scope { order('id') }
+  default_scope { order('id') }
 
-  # testing
 
   has_many :enforcements,
     class_name: 'CaseEnforcement',
@@ -101,7 +95,17 @@ class Facility < ApplicationRecord
     counter = Hash.new(0)
 
     Facility.where.not(fac_naics_codes: nil).pluck(:fac_naics_codes).each do |code_str|
-      code_str.split(" ").each { |code| counter[code.to_i] += 1}
+      code_str.split(" ").each { |code| counter[code] += 1}
+    end
+
+    counter
+  end
+
+  def self.tally_inspections_by_state
+    counter = Hash.new(0)
+
+    Facility.where('fac_inspection_count > ?', 0).each do |f|
+      counter[f.fac_state] += f.fac_inspection_count
     end
 
     counter

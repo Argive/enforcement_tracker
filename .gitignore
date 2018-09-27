@@ -23,3 +23,5 @@ lib/seeds/echo_exporter_all.csv
 lib/tasks/enforcements/case_downloads
 
 .byebug_history
+
+lib/tasks/files/facilities_geo.json

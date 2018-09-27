@@ -20,5 +20,14 @@ class CaseStatute < ApplicationRecord
     primary_key: :activity_id,
     foreign_key: :activity_id
 
-  
+    def self.group_by_violated_statutes
+      counter = Hash.new(0)
+
+      CaseStatute.find_each do |s|
+        statute_identifier = "#{s.statute_code} #{s.law_section_code} - #{s.law_section_desc}"
+        counter[statute_identifier] += 1
+      end
+
+      counter
+    end
 end

@@ -11,19 +11,22 @@ Rails.application.routes.draw do
         collection do
           get 'summarize'
           get 'industry_count'
+          get 'index_geo'
         end
       end
 
       resources :inspections, only: [:index, :show] do
         collection do
           get 'summarize'
+          get 'tally_by_state'
         end
       end
 
       resources :enforcements, only: [:index, :show] do
         collection do
           get 'summarize'
-          get 'summarize_v2'
+          get 'tally_by_statute'
+          get 'group_by_year'
         end
       end
 

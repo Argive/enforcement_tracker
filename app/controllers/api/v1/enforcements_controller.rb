@@ -1,6 +1,6 @@
 class Api::V1::EnforcementsController < ApplicationController
 
-  def summarize
+  def tally_by_statute
     @enforcement_informal_count = Facility.sum(:fac_informal_count) # <5 years
     @enforcement_formal_count = Facility.sum(:fac_formal_action_count)
     @enforcement_total_penalties_dollar = Facility.sum(:fac_total_penalties).to_i
@@ -38,7 +38,13 @@ class Api::V1::EnforcementsController < ApplicationController
     }
   end
 
-  def summarize_v2
-    render json: { 'hi' => 'bye' }
+  def summarize
+    @summary = CaseEnforcement.summarize
+    render json: @summary
+  end
+
+  def group_by_year
+    @grouped = CaseEnforcement.group_by_year
+    render json: @grouped
   end
 end

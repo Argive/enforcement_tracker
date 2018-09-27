@@ -13,4 +13,10 @@ class Api::V1::InspectionsController < ApplicationController
     }
   end
 
+  def tally_by_state
+    @inspections_by_state = Facility.tally_inspections_by_state
+
+    render json: @inspections_by_state
+  end
+
 end
