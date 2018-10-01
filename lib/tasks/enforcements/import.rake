@@ -33,9 +33,7 @@ namespace :import do
       c.voluntary_self_disclosure_flag = row['VOLUNTARY_SELF_DISCLOSURE_FLAG'].gsub("\u0000", '') if row['VOLUNTARY_SELF_DISCLOSURE_FLAG']
       c.multimedia_flag = row['MULTIMEDIA_FLAG'].gsub("\u0000", '') if row['MULTIMEDIA_FLAG']
 
-      c.save
-
-      puts "#{c.case_number} added ..."
+      c.save!
       counter += 1
     end
 
@@ -69,7 +67,9 @@ namespace :import do
     counter = 0
 
     CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
+
       c = CaseEnforcement.find_by(activity_id: row['ACTIVITY_ID'])
+      next if c.nil? 
       c.registry_id = row['REGISTRY_ID']
 
       c.save

@@ -45,6 +45,8 @@ class CaseEnforcement < ApplicationRecord
     primary_key: :registry_id,
     foreign_key: :registry_id
 
+  validates :activity_id, uniqueness: true
+
   # must use Facility model to calculate penalties because
   # CaseEnforcement data seems unreliable, e.g. total_penalties == nil
   # where it should very obviously not be.
