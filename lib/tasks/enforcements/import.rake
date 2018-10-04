@@ -69,7 +69,7 @@ namespace :import do
     CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
 
       c = CaseEnforcement.find_by(activity_id: row['ACTIVITY_ID'])
-      next if c.nil? 
+      next if c.nil?
       c.registry_id = row['REGISTRY_ID']
 
       c.save
@@ -78,6 +78,45 @@ namespace :import do
     end
 
     puts "#{counter} facilities matched."
+  end
+
+  task case_violation: :environment do
+    path = Rails.root.join('lib', 'tasks', 'enforcements', 'case_downloads', 'CASE_VIOLATIONS.csv')
+    counter = 0
+
+    CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
+      c = CaseViolation.new
+
+      c.activity_id = row['ACTIVITY_ID']
+      c.violation_type_code = row['VIOLATION_TYPE_CODE'] if row['VIOLATION_TYPE_CODE']
+      c.rank_order = row['RANK_ORDER'] if row['RANK_ORDER'] && row['RANK_ORDER'] != ''
+      c.violation_type_desc = row['VIOLATION_TYPE_DESC'] if row['VIOLATION_TYPE_DESC']
+
+      c.save
+      counter += 1
+      puts counter
+    end
+
+    puts "#{counter} case violations added."
+  end
+
+  task case_enforcement_type: :environment do
+    path = Rails.root.join('lib', 'tasks', 'enforcements', 'case_downloads', 'CASE_ENFORCEMENT_TYPE.csv')
+    counter = 0
+
+    CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
+      c = CaseEnforcementType.new
+
+      c.activity_id = row['ACTIVITY_ID']
+      c.enf_type_code = row['VIOLATION_TYPE_CODE'] if row['VIOLATION_TYPE_CODE']
+      c.enf_type_desc = row['VIOLATION_TYPE_DESC'] if row['VIOLATION_TYPE_DESC']
+
+      c.save
+      counter += 1
+      puts counter
+    end
+
+    puts "#{counter} case violations added."
   end
 
 

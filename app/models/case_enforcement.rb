@@ -40,6 +40,11 @@ class CaseEnforcement < ApplicationRecord
     primary_key: :activity_id,
     foreign_key: :activity_id
 
+  has_many :violation_types,
+    class_name: 'CaseViolation',
+    primary_key: :activity_id,
+    foreign_key: :activity_id
+
   belongs_to :facility,
     class_name: 'Facility',
     primary_key: :registry_id,
@@ -77,7 +82,7 @@ class CaseEnforcement < ApplicationRecord
   def self.group_by_year
     counter = Hash.new(0)
 
-    CaseEnforcement.pluck(:fiscal_year).each do |yr|
+    CaseEnforcement.where(lead: 'EPA').pluck(:fiscal_year).each do |yr|
       next if (!yr || yr > 2018)
       counter[yr] += 1
     end

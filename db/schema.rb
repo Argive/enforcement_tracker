@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181001173910) do
+ActiveRecord::Schema.define(version: 20181004171132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "case_enforcement_types", force: :cascade do |t|
+    t.bigint "activity_id"
+    t.string "enf_type_code"
+    t.string "enf_type_desc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "case_enforcements", force: :cascade do |t|
     t.bigint "activity_id"
@@ -67,6 +75,15 @@ ActiveRecord::Schema.define(version: 20181001173910) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["activity_id"], name: "index_case_statutes_on_activity_id"
+  end
+
+  create_table "case_violations", force: :cascade do |t|
+    t.bigint "activity_id"
+    t.string "violation_type_code"
+    t.integer "rank_order"
+    t.string "violation_type_desc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "facilities", force: :cascade do |t|
