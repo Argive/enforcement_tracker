@@ -53,6 +53,11 @@ class Facility < ApplicationRecord
     primary_key: :registry_id,
     foreign_key: :registry_id
 
+  has_many :programs,
+    class_name: 'FacilityProgram',
+    primary_key: :registry_id,
+    foreign_key: :registry_id
+
   has_many :violated_statutes,
     through: :enforcements
 
