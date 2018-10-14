@@ -82,7 +82,7 @@ class CaseEnforcement < ApplicationRecord
   def self.group_by_year
     counter = Hash.new(0)
 
-    CaseEnforcement.where(lead: 'EPA').pluck(:fiscal_year).each do |yr|
+    CaseEnforcement.pluck(:fiscal_year).each do |yr|
       next if (!yr || yr > 2018)
       counter[yr] += 1
     end

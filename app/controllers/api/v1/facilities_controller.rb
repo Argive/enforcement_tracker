@@ -24,4 +24,11 @@ class Api::V1::FacilitiesController < ApplicationController
     industries = Facility.count_industries
     render json: industries
   end
+
+  def associated_actions
+    facility = Facility.find_by(registry_id: params[:registry_id])
+    actions = facility.associated_actions
+
+    render json: actions
+  end
 end

@@ -1,3 +1,7 @@
+require 'csv'
+require 'spreadsheet'
+require_relative 'terminal_output'
+
 namespace :analyze do
   task statute_frequency: :environment do
     counter = Hash.new(0)
@@ -69,5 +73,78 @@ namespace :analyze do
     end
 
     p counter
+  end
+
+  task group_by_lead: :environment do
+    counter = Hash.new(0)
+
+    CaseEnforcement.pluck(:lead).each do |lead|
+      counter[lead] += 1
+    end
+
+    p counter
+  end
+
+  task violations: :environment do
+    counter = 0
+    activity_ids = CaseViolation.pluck(:activity_id).uniq
+    tracker = Hash.new(0)
+
+    activity_ids.each do |id|
+      c = CaseEnforcement.find_by(activity_id: id)
+      next if c.nil?
+      next if c.violated_statutes.count != 1 && c.violation_types.count != 1
+
+      counter += 1
+
+      s = c.violated_statutes.first
+      v = c.violation_types.first
+
+      next if s.nil? || v.nil?
+
+      str =
+        s.statute_code + "%$~%yk" +
+        s.law_section_code + "%$~%yk" +
+        s.law_section_desc + "%$~%yk" +
+        v.violation_type_code + "%$~%yk" +
+        v.violation_type_desc
+
+      tracker[str] += 1
+
+      puts str
+    end
+
+    puts "#{counter} violation types matched with statute."
+    p tracker
+  end
+
+  task violations_to_sheet: :environment do
+    book = Spreadsheet::Workbook.new
+
+    sheet1 = book.create_worksheet
+    sheet1.name = 'top_violations'
+
+    counter = 0
+    sheet1.row(counter).concat(%w{statute_code law_section_code law_section_desc violation_type_code violation_type concat count})
+
+
+    VIOLATIONS_HASH.each do |k, v|
+      counter += 1
+
+      split = k.split("%$~%yk")
+      sheet1.update_row(
+        counter,
+        split[0],
+        split[1],
+        split[2],
+        split[3],
+        split[4],
+        split.join(" "),
+        v
+      )
+    end
+
+    output_path = Rails.root.join('lib', 'tasks', 'enforcements', 'violations_count-v0.xls')
+    book.write(output_path)
   end
 end

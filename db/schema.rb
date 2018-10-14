@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181004171132) do
+ActiveRecord::Schema.define(version: 20181014193512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,15 @@ ActiveRecord::Schema.define(version: 20181004171132) do
     t.string "dfr_url"
     t.string "fac_type"
     t.index ["registry_id"], name: "index_facilities_on_registry_id", unique: true
+  end
+
+  create_table "facility_programs", force: :cascade do |t|
+    t.bigint "registry_id"
+    t.string "program_acronym"
+    t.string "program_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["registry_id"], name: "index_facility_programs_on_registry_id"
   end
 
 end

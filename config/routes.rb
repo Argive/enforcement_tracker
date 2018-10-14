@@ -12,6 +12,7 @@ Rails.application.routes.draw do
           get 'summarize'
           get 'industry_count'
           get 'index_geo'
+          get 'associated_actions'
         end
       end
 

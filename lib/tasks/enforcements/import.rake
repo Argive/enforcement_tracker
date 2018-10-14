@@ -119,5 +119,21 @@ namespace :import do
     puts "#{counter} case violations added."
   end
 
+  task facility_programs: :environment do
+    path = Rails.root.join('lib', 'tasks', 'enforcements', 'case_downloads', 'FRS_PROGRAM_LINKS.csv')
+    counter = 0
 
+    CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
+      p = FacilityProgram.new
+
+      p.registry_id = row['REGISTRY_ID']
+      p.program_acronym = row['PGM_SYS_ACRNM'] if row['PGM_SYS_ACRNM']
+      p.program_id = row['PGM_SYS_ID'] if row['PGM_SYS_ID']
+
+      p.save
+      counter += 1
+    end
+
+    puts "#{counter} program links added."
+  end
 end

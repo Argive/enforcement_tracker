@@ -110,4 +110,26 @@ class Facility < ApplicationRecord
 
     counter
   end
+
+  def associated_actions
+    enforcements_detail = self.enforcements.empty? ? 0 : self.enforcements
+
+    inspections = {
+      total: (self.fac_inspection_count || 0),
+      caa: (self.caa_evaluation_count || 0),
+      cwa: (self.cwa_inspection_count || 0),
+      rcra: (self.rcra_inspection_count || 0)
+    }
+
+    enforcements = {
+      total_penalties: (self.fac_total_penalties || 0),
+      penalty_count: (self.fac_penalty_count || 0)
+    }
+
+    {
+      enforcements: enforcements,
+      inspections: inspections,
+      enforcements_detail: enforcements_detail
+    }
+  end
 end
