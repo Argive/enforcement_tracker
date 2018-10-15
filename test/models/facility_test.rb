@@ -41,6 +41,11 @@
 #  updated_at                    :datetime         not null
 #  dfr_url                       :string
 #  fac_type                      :string
+#  caa_applicable                :boolean          default(FALSE)
+#  cwa_applicable                :boolean          default(FALSE)
+#  epcra_applicable              :boolean          default(FALSE)
+#  rcra_applicable               :boolean          default(FALSE)
+#  sdwa_applicable               :boolean          default(FALSE)
 #
 
 require 'test_helper'

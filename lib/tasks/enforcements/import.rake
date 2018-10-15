@@ -136,4 +136,51 @@ namespace :import do
 
     puts "#{counter} program links added."
   end
+
+  task statutes_applicable: :environment do
+    counter = 0
+
+    Facility.find_each do |f|
+      statutes = f.programs.distinct.pluck(:program_acronym)
+
+      f.caa_applicable = true if statutes.include?('AIR') || statutes.include?('E-GGRT')
+      f.cwa_applicable = true if statutes.include?('NPDES')
+      f.epcra_applicable = true if statutes.include?('TRIS')
+      f.rcra_applicable = true if statutes.include?('RCRAINFO')
+
+      f.save
+
+      counter += 1
+    end
+
+    puts "#{counter} programs added."
+  end
+
+  task statute_violation_matches: :environment do
+    path = Rails.root.join('lib', 'tasks', 'enforcements', 'miscellany', 'statute-violation_v1.csv')
+    counter = 0
+
+    CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
+      s = StatuteViolationMatch.new
+
+      s.key = row['key']
+      s.statute_code = row['statute_code'] if row['statute_code']
+      s.law_section_code = row['law_section_code'] if row['law_section_code']
+      s.law_section_desc = row['law_section_desc'] if row['law_section_desc']
+      s.violation_type_code = row['violation_type_code'] if row['violation_type_code']
+      s.violation_type = row['violation_type'] if row['violation_type']
+      s.count = row['count'] if row['count']
+      s.top_level_epa_summary = row['top_level_epa_summary'] if row['top_level_epa_summary']
+      s.top_level_usc = row['top_level_usc'] if row['top_level_usc']
+      s.drilldown_epa_summary = row['drilldown_epa_summary'] if row['drilldown_epa_summary']
+      s.drilldown_usc = row['drilldown_usc'] if row['drilldown_usc']
+      s.drilldown_cfr = row['drilldown_cfr'] if row['drilldown_cfr']
+      s.drilldown_fr = row['drilldown_fr'] if row['drilldown_fr']
+
+      s.save
+      counter += 1
+    end
+
+    puts "#{counter} statute-violation matches added."
+  end
 end

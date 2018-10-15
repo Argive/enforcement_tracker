@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181014193512) do
+ActiveRecord::Schema.define(version: 20181015184607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,11 @@ ActiveRecord::Schema.define(version: 20181014193512) do
     t.datetime "updated_at", null: false
     t.string "dfr_url"
     t.string "fac_type"
+    t.boolean "caa_applicable", default: false
+    t.boolean "cwa_applicable", default: false
+    t.boolean "epcra_applicable", default: false
+    t.boolean "rcra_applicable", default: false
+    t.boolean "sdwa_applicable", default: false
     t.index ["registry_id"], name: "index_facilities_on_registry_id", unique: true
   end
 
@@ -135,6 +140,25 @@ ActiveRecord::Schema.define(version: 20181014193512) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["registry_id"], name: "index_facility_programs_on_registry_id"
+  end
+
+  create_table "statute_violation_matches", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "statute_code"
+    t.string "law_section_code"
+    t.string "law_section_desc"
+    t.string "violation_type_code"
+    t.string "violation_type"
+    t.integer "count"
+    t.string "top_level_epa_summary"
+    t.string "top_level_usc"
+    t.string "drilldown_epa_summary"
+    t.string "drilldown_usc"
+    t.string "drilldown_cfr"
+    t.string "drilldown_fr"
+    t.string "other_links", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
