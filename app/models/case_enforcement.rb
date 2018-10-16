@@ -61,8 +61,9 @@ class CaseEnforcement < ApplicationRecord
 
     penalized_facilities = Facility.where('fac_total_penalties > ?', 0)
     penalized_small_businesses = penalized_facilities.where('fac_type = ?', 'small')
-
-    summary['count'] = CaseEnforcement.count
+    formally_enforced = Facility.where('fac_formal_action_count > ?', 0)
+    informally_enforced = Facility.where('fac_informal_count > ?', 0)
+    facility_count = Facility.count
 
     summary['facilities_penalized'] =
       penalized_facilities.count
@@ -75,6 +76,9 @@ class CaseEnforcement < ApplicationRecord
 
     summary['avg_penalties_small_business'] =
       penalized_small_businesses.average(:fac_total_penalties).to_i
+
+    summary['informal_action_likelihood'] =
+      informally_enforced.count / facility_count
 
     summary
   end
@@ -101,6 +105,13 @@ class CaseEnforcement < ApplicationRecord
     end
 
     counter
+  end
+
+  def self.risk_by_facility
+    summary = {}
+
+
+    summary
   end
 
 end

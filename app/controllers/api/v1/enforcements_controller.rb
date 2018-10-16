@@ -47,4 +47,7 @@ class Api::V1::EnforcementsController < ApplicationController
     @grouped = CaseEnforcement.group_by_year
     render json: @grouped
   end
+
+  def dashboard_stats
+  end 
 end
