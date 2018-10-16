@@ -28,6 +28,7 @@ Rails.application.routes.draw do
           get 'summarize'
           get 'tally_by_statute'
           get 'group_by_year'
+          get 'common_violations'
         end
       end
 

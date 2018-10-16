@@ -49,5 +49,10 @@ class Api::V1::EnforcementsController < ApplicationController
   end
 
   def dashboard_stats
-  end 
+  end
+
+  def common_violations
+    @violations = StatuteViolationMatch.reduce(params).page(params[:page]).per(25)
+    render json: @violations
+  end
 end

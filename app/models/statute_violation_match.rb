@@ -21,8 +21,16 @@
 #  updated_at              :datetime         not null
 #  average_penalty         :float
 #  violations_with_no_fine :integer
+#  percentage_with_fine    :float
 #
 
 class StatuteViolationMatch < ApplicationRecord
+
+  default_scope { order('id') }
+
+  extend Rack::Reducer
+  reduces self.all, filters: [
+    ->(statute_code:) { where(statute_code: statute_code) }
+  ]
 
 end

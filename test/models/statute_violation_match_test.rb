@@ -21,6 +21,7 @@
 #  updated_at              :datetime         not null
 #  average_penalty         :float
 #  violations_with_no_fine :integer
+#  percentage_with_fine    :float
 #
 
 require 'test_helper'
