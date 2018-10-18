@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         collection do
           get 'summarize'
           get 'tally_by_state'
+          get 'dashboard_stats'
         end
       end
 

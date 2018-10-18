@@ -30,7 +30,12 @@ class StatuteViolationMatch < ApplicationRecord
 
   extend Rack::Reducer
   reduces self.all, filters: [
-    ->(statute_code:) { where(statute_code: statute_code) }
+    ->(statute_code:) { where(statute_code: statute_code) },
+    ->(other:)  {
+                  where.not(statute_code: 'CAA')
+                  .where.not(statute_code: 'CWA')
+                  .where.not(statute_code: 'RCRA')
+                }
   ]
 
 end

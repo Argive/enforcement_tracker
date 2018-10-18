@@ -62,7 +62,7 @@ class Facility < ApplicationRecord
     class_name: 'FacilityProgram',
     primary_key: :registry_id,
     foreign_key: :registry_id
-    
+
 
   has_many :violated_statutes,
     through: :enforcements
@@ -134,13 +134,46 @@ class Facility < ApplicationRecord
 
     enforcements = {
       total_penalties: (self.fac_total_penalties || 0),
-      penalty_count: (self.fac_penalty_count || 0)
+      penalty_count: (self.fac_penalty_count || 0),
+      formal_actions: (self.fac_formal_action_count || 0),
+      informal_actions: (self.fac_informal_count || 0)
     }
 
     {
+      registry_id: self.registry_id,
       enforcements: enforcements,
       inspections: inspections,
       enforcements_detail: enforcements_detail
     }
+  end
+
+  def self.generate_inspection_stats
+    stats = {}
+
+    caa_f = Facility.where(caa_applicable: true)
+    caa_inspected_count = caa_f.where('caa_evaluation_count > ?', 0).count
+
+    cwa_f = Facility.where(cwa_applicable: true)
+    cwa_inspected_count = cwa_f.where('cwa_inspection_count > ?', 0).count
+
+    rcra_f = Facility.where(rcra_applicable: true)
+    rcra_inspected_count = rcra_f.where('rcra_inspection_count > ?', 0).count
+
+    stats['caa'] = [
+      caa_inspected_count,
+      caa_inspected_count / caa_f.count.to_f
+    ]
+
+    stats['cwa'] = [
+      cwa_inspected_count,
+      cwa_inspected_count / cwa_f.count.to_f
+    ]
+
+    stats['rcra'] = [
+      rcra_inspected_count,
+      rcra_inspected_count / rcra_f.count.to_f
+    ]
+
+    stats
   end
 end

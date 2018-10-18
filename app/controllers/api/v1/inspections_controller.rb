@@ -19,4 +19,9 @@ class Api::V1::InspectionsController < ApplicationController
     render json: @inspections_by_state
   end
 
+  def dashboard_stats
+    dashboard_stats = Facility.generate_inspection_stats
+    render json: dashboard_stats
+  end
+
 end
