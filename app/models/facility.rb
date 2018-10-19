@@ -72,6 +72,7 @@ class Facility < ApplicationRecord
     ->(id:) { where(id: id.to_i) }, # for testing, remove in prod
     ->(frs:) { where(registry_id: frs) },
     ->(name:) { where('lower(fac_name) like ?', "%#{name.downcase}%") },
+    ->(address:) { where('lower(fac_address) like ?', "%#{address.downcase}%") },
     ->(state:) { where(fac_state: state.upcase) },
     ->(zip:) { where(fac_zip: zip.to_i) },
     ->(epa_region:) { where(fac_epa_region: epa_region.to_i) },
@@ -176,4 +177,23 @@ class Facility < ApplicationRecord
 
     stats
   end
+
+  # def self.search(**args)
+  #   zip = args[:zip]
+  #   name = args[:name]
+  #   address = args[:address]
+  #   if !name
+  #     facility_matches = Facility.where(fac_zip: zip)
+  #                                .where('fac_address LIKE ?', "%#{address}%")
+  #   elsif !address
+  #     facility_matches = Facility.where(fac_zip: zip)
+  #                                .where('fac_name LIKE ?', "%#{name}%")
+  #   else
+  #     facility_matches = Facility.where(fac_zip: zip)
+  #                                .where('fac_address LIKE ?', "%#{address}%")
+  #                                .where('fac_name LIKE ?', "%#{name}%")
+  #   end
+  #
+  #   facility_matches
+  # end
 end
