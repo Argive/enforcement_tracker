@@ -124,7 +124,7 @@ class Facility < ApplicationRecord
   end
 
   def associated_actions
-    enforcements_detail = self.enforcements.empty? ? 0 : self.enforcements
+    enforcements_detail = self.enforcements.empty? ? [] : self.enforcements
 
     inspections = {
       total: (self.fac_inspection_count || 0),
