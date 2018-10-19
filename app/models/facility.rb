@@ -71,8 +71,8 @@ class Facility < ApplicationRecord
   reduces self.all, filters: [
     ->(id:) { where(id: id.to_i) }, # for testing, remove in prod
     ->(frs:) { where(registry_id: frs) },
-    ->(name:) { where('lower(fac_name) like ?', "%#{name.downcase}%") },
-    ->(address:) { where('lower(fac_address) like ?', "%#{address.downcase}%") },
+    ->(name:) { where('lower(fac_name) like ?', "%#{name.split('%20').join(' ').downcase}%") },
+    ->(address:) { where('lower(fac_street) like ?', "%#{address.split('%20').join(' ').downcase}%") },
     ->(state:) { where(fac_state: state.upcase) },
     ->(zip:) { where(fac_zip: zip.to_i) },
     ->(epa_region:) { where(fac_epa_region: epa_region.to_i) },
