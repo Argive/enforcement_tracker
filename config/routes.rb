@@ -13,6 +13,7 @@ Rails.application.routes.draw do
           get 'industry_count'
           get 'index_geo'
           get 'associated_actions'
+          get 'applicable_statutes'
         end
       end
 

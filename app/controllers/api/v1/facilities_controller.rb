@@ -31,4 +31,12 @@ class Api::V1::FacilitiesController < ApplicationController
 
     render json: actions
   end
+
+  def applicable_statutes
+    facility = Facility.find_by(registry_id: params[:registry_id])
+    statutes = facility.applicable_statutes
+
+    render json: statutes
+
+  end
 end
