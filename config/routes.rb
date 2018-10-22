@@ -34,6 +34,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :comments, only: [:index, :show] do
+        collection do
+          get 'group_by_violation'
+        end
+      end
+
     end
   end
 end

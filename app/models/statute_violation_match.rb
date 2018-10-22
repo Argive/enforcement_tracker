@@ -26,6 +26,11 @@
 
 class StatuteViolationMatch < ApplicationRecord
 
+  has_many :comments,
+    class_name: 'Comment',
+    primary_key: :id,
+    foreign_key: :violation_id
+
   default_scope { order('id') }
 
   extend Rack::Reducer
