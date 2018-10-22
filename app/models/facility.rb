@@ -183,12 +183,13 @@ class Facility < ApplicationRecord
       'caa' => false,
       'cwa' => false,
       'rcra' => false,
-      'sdwa' => false 
+      'sdwa' => false
     }
 
     applicable_statutes['caa'] = true if self.caa_applicable
     applicable_statutes['cwa'] = true if self.cwa_applicable
     applicable_statutes['rcra'] = true if self.rcra_applicable
+    applicable_statutes['sdwa'] = true if self.sdwa_applicable
 
     applicable_statutes
   end
