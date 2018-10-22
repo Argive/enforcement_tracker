@@ -331,4 +331,38 @@ namespace :analyze do
 
     puts "#{counter} violations analyzed."
   end
+
+  task inspected_facilities_check: :environment do
+    counter = 0
+
+    Facility.find_each do |f|
+      caa_var = (f.caa_evaluation_count || 0 ) +
+                (f.caa_informal_count || 0 ) +
+                (f.caa_formal_action_count || 0 ) +
+                (f.caa_penalties || 0 )
+
+      cwa_var = (f.cwa_inspection_count || 0 ) +
+                (f.cwa_informal_count || 0 ) +
+                (f.cwa_formal_action_count || 0 ) +
+                (f.cwa_penalties || 0 )
+
+      rcra_var = (f.rcra_inspection_count || 0 ) +
+                (f.rcra_informal_count || 0 ) +
+                (f.rcra_formal_action_count || 0 ) +
+                (f.rcra_penalties || 0 )
+
+      sdwa_var = (f.sdwa_formal_action_count || 0 ) +
+                (f.sdwa_informal_count || 0 )
+
+      f.caa_applicable = true if caa_var > 0
+      f.cwa_applicable = true if cwa_var > 0
+      f.rcra_applicable = true if rcra_var > 0
+      f.sdwa_applicable = true if sdwa_var > 0
+
+      f.save
+      counter += 1
+    end
+
+    puts "#{counter} facilities analyzed"
+  end
 end
