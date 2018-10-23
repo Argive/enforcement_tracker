@@ -22,6 +22,7 @@
 #  average_penalty         :float
 #  violations_with_no_fine :integer
 #  percentage_with_fine    :float
+#  summary                 :text
 #
 
 class StatuteViolationMatch < ApplicationRecord

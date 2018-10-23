@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181022172657) do
+ActiveRecord::Schema.define(version: 20181023165043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20181022172657) do
   create_table "comments", force: :cascade do |t|
     t.integer "violation_id", null: false
     t.string "commenter_name", null: false
-    t.string "body", null: false
+    t.text "body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 20181022172657) do
     t.float "average_penalty"
     t.integer "violations_with_no_fine"
     t.float "percentage_with_fine"
+    t.text "summary"
   end
 
 end
