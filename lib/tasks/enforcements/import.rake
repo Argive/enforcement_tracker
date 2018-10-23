@@ -157,13 +157,13 @@ namespace :import do
   end
 
   task statute_violation_matches: :environment do
-    path = Rails.root.join('lib', 'tasks', 'enforcements', 'miscellany', 'statute-violation_v1.csv')
+    path = Rails.root.join('lib', 'tasks', 'enforcements', 'miscellany', 'statute-violation_v2.csv')
     counter = 0
 
     CSV.foreach(path, headers: true, encoding: 'ISO-8859-1').each do |row|
-      s = StatuteViolationMatch.new
+      s = StatuteViolationMatch.find_by(key: row['key'])
+      next if s.nil?
 
-      s.key = row['key']
       s.statute_code = row['statute_code'] if row['statute_code']
       s.law_section_code = row['law_section_code'] if row['law_section_code']
       s.law_section_desc = row['law_section_desc'] if row['law_section_desc']
